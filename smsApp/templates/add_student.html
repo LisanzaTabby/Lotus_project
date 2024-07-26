@@ -1,0 +1,44 @@
+{% extends 'navbars/student_navbar.html' %}
+
+{% block content %}
+<div class="main"style="margin: 30px; background: aqua;display:flex; justify-content:center;padding: 30px;border-radius: 10px;">
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-4">
+            {{form.firstname.label_tag}}
+            {{form.firstname}}
+        </div>
+        <div class="mb-4">
+            {{form.lastname.label_tag}}
+            {{form.lastname}}
+        </div>
+        <div class="mb-4">
+            {{form.email.label_tag}}
+            {{form.email}}
+        </div>
+        <div class="mb-4">
+            {{form.phone.label_tag}}
+            {{form.phone}}
+        </div>
+        <div class="mb-4">
+            {{form.gender.label_tag}}
+            {{form.gender}}
+        </div>
+        <div class="mb-4">
+            {{form.levelofstudy.label_tag}}
+            {{form.levelofstudy}}
+        </div>        
+        <div class="mb-4">
+            {{form.DateofBirth.label_tag}}
+            {{form.DateofBirth}}
+        </div>
+        
+    
+        <button class="btn btn-primary" type="submit">Save</button>
+    </form>
+
+</div>
+
+
+
+{% endblock%}
