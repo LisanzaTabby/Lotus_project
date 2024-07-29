@@ -25,7 +25,7 @@ class StudentFilter(django_filters.FilterSet):
     )
     name = CharFilter(field_name='firstname', lookup_expr='icontains', label='Student name')
     gender = ChoiceFilter(choices = GENDER)
-    levelofstudy = ChoiceFilter(choices=LEVELOFSTUDY,label='Status')
+    levelofstudy = ChoiceFilter(choices=LEVELOFSTUDY,label='Level of Study')
     status = ChoiceFilter(choices=STATUS, label = 'Status')
     position = ChoiceFilter(choices=POSITION, label = 'Position')
     class Meta:

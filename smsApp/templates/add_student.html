@@ -1,7 +1,8 @@
 {% extends 'navbars/student_navbar.html' %}
 
 {% block content %}
-<div class="main"style="margin: 30px; background: aqua;display:flex; justify-content:center;padding: 30px;border-radius: 10px;">
+<h2 style="text-align: center; text-transform: uppercase;">LOTUS add student</h2>    
+<div class="main"style="margin: 30px; background: aqua;display:flex; justify-content:center;padding: 30px;border-radius: 10px;">    
     <form method="post">
         {% csrf_token %}
         <div class="mb-4">
