@@ -1,12 +1,9 @@
-from django.shortcuts import render
-
-# Create your views here.
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import StudentForm, EmployeeForm
-from .models import Student, Employee
-from .filters import StudentFilter, EmployeeFilter
+from .forms import StudentForm, EmployeeForm, DonorForm, SchoolForm
+from .models import Student, Employee,Donor, School
+from .filters import StudentFilter, EmployeeFilter, DonorFilter, SchoolFilter
 # Create your views here.
 
 def HomeView(request):
@@ -64,7 +61,7 @@ def DeleteStudentView(request, pk):
         messages.info(request, "Student Successfully Deleted!")
         return redirect('dataentry')
     context ={'student': student}    
-    return render(request, 'delete.html', context)
+    return render(request, 'deletion/student_delete.html', context)
 def add_employee(request):
     if request.method == 'POST':
         form = EmployeeForm(request.POST)
@@ -101,7 +98,64 @@ def delete_employee(request, pk):
         messages.success(request, "Employee Successfully deleted!")
         return redirect('employee_list')
     context = {'employee': employee}
-    return render(request, 'employee_delete.html', context)
+    return render(request, 'deletion/employee_delete.html', context)
+
+def add_donor(request):
+    if request.method == 'POST':
+        form = DonorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Donor added successfully!')
+            return redirect('donor_list')
+        else:
+            return render(request, 'add_donor.html', {'form':form})
+        
+    form = DonorForm()
+    return render(request, 'add_donor.html', {'form':form})
+def donor_list(request):
+    donors = Donor.objects.all().order_by('id')
+    myFilter = DonorFilter(request.POST, queryset=donors)
+    donors = myFilter.qs
+    context = {'donors': donors, 'myFilter': myFilter}
+    return render(request, 'donor_list.html', context)
+def edit_donor(request, pk):
+    donor = Donor.objects.get(id=pk)
+    form = DonorForm(instance=donor)
+    if request.method == 'POST':
+        form = DonorForm(request.POST, instance=donor)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Changes Updated Successfully!')
+            return redirect('donor_list')
+    context = {'form':form}
+    return render(request, 'add_donor.html', context)
+def delete_donor(request, pk):
+    donor = Donor.objects.get(id=pk)
+    if request.method == 'POST':
+        donor.delete()
+        messages.success(request, 'Donor deleted Successfully!')
+        return redirect('donor_list')
+    
+    context = {'donor':donor}
+    return render(request, 'deletion/donor_delete.html', context)
+def add_school(request):
+    if request.method == 'POST':
+        form = SchoolForm(request.POST)
+        if form.is_valid():
+            messages.success(request, 'School Added Successfully!')
+            form.save()
+            return redirect('school_list')
+        else:
+            return render(request, 'add_school.html', {'form':form})
+    form = SchoolForm()
+    return render (request, 'add_school.html', {'form':form})
+
+def school_list(request):
+    schools = School.objects.all().order_by('id')
+    myFilter = SchoolFilter(request.POST, queryset = schools)
+    schools = myFilter.qs
+    context = {'schools':schools, 'myFilter':myFilter}
+    return render(request, 'school_list.html', context)
 
 def LogoutView(request):
     logout(request)

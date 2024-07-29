@@ -5,12 +5,8 @@
     <form method="post">
         {% csrf_token %}
         <div class="mb-4">
-            {{form.firstname.label_tag}}
-            {{form.firstname}}
-        </div>
-        <div class="mb-4">
-            {{form.lastname.label_tag}}
-            {{form.lastname}}
+            {{form.schoolname.label_tag}}
+            {{form.schoolname}}
         </div>
         <div class="mb-4">
             {{form.email.label_tag}}
@@ -21,20 +17,10 @@
             {{form.phone}}
         </div>
         <div class="mb-4">
-            {{form.gender.label_tag}}
-            {{form.gender}}
-        </div>
-        <div class="mb-4">
-            {{form.department.label_tag}}
-            {{form.department}}
-        </div>
-        
-        <div class="mb-4">
-            {{form.DateofBirth.label_tag}}
-            {{form.DateofBirth}}
-        </div>
-        
-    
+            {{form.location.label_tag}}
+            {{form.location}}
+        </div>        
+           
         <button class="btn btn-primary" type="submit">Save</button>
     </form>
 

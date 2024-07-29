@@ -1,4 +1,4 @@
-{% extends 'navbars/student_navbar.html' %}
+{% extends 'navbars/employee_navbar.html' %}
 
 {% block content %}
 <div class="main"style="margin: 30px; background: aqua;display:flex; justify-content:center;padding: 30px;border-radius: 10px;">
@@ -23,27 +23,7 @@
         <div class="mb-4">
             {{form.gender.label_tag}}
             {{form.gender}}
-        </div>
-        <div class="mb-4">
-            {{form.levelofstudy.label_tag}}
-            {{form.levelofstudy}}
-        </div>
-        <div class="mb-4">
-            {{form.position.label_tag}}
-            {{form.position}}
-        </div>
-        <div class="mb-4">
-            {{form.status.label_tag}}
-            {{form.status}}
-        </div>
-        <div class="mb-4">
-            {{form.donor.label_tag}}
-            {{form.donor}}
-        </div>
-        <div class="mb-4">
-            {{form.school.label_tag}}
-            {{form.school}}
-        </div>
+        </div>        
         <div class="mb-4">
             {{form.DateofBirth.label_tag}}
             {{form.DateofBirth}}

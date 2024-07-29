@@ -60,48 +60,9 @@
       </nav>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <div class="main">
-        <h1 style="text-align: center; text-transform: uppercase;">Lotus Student Beneficiaries</h1>
-        {% for message in messages %}
-          <p id="message">{{message}}</p>
-        {% endfor %}
-        <form method= 'post'class="d-flex" role="search">
-            {% csrf_token %}
-            {{ myFilter.form.as_p }}
-            <button class="btn btn-primary" type="submit">Search</button>
-          </form>
-        <table style="margin-top: 20px;" class="table table-bordered">
-            <thead>
-              <tr>
-                <th scope="col">StudentID</th>
-                <th scope="col">Student Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Phone</th>
-                <th scope="col">Gender</th>
-                <th scope="col">Level of Study</th>
-                <th scope="col">DateofBirth</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            {% for student in students %}
-            <tbody>
-              <tr>
-                <td>{{student.id}}</td>
-                <td>{{student.firstname}} {{student.lastname}}</td>
-                <td>{{student.email}}</td>
-                <td>{{student.phone}}</td>
-                <td>{{student.gender}}</td>
-                <td>{{student.levelofstudy}}</td>
-                <td>{{student.DateofBirth}}</td>
-                <td>
-                    <a href="{% url 'editstudent' student.id %}"class="btn btn-primary">Edit</a>
-                    <a href="{% url 'deletestudent' student.id %}"class="btn btn-danger">Delete</a>
-                    
-                </td>
-              </tr>
-            </tbody>
-            {% endfor %}
-          </table>
-    </div>
+    {% block content %}
+
+    
+    {% endblock %}
   </body>
 </html>

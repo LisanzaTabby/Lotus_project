@@ -39,7 +39,9 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" href="{% url 'student_list' %}">Students</a></li>
-                  <li><a class="dropdown-item" href="employee_list/">Employees</a></li>
+                  <li><a class="dropdown-item" href="{% url 'employee_list' %}">Employees</a></li>
+                  <li><a class="dropdown-item" href="{% url 'donor_list' %}">Donors</a></li>
+                  <li><a class="dropdown-item" href="{% url 'school_list' %}">Schools</a></li>
                   <li><a class="dropdown-item" href="#">My profile</a></li>
                 </ul>
               </li>
