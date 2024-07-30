@@ -1,14 +1,17 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from .forms import StudentForm, EmployeeForm, DonorForm, SchoolForm
 from .models import Student, Employee,Donor, School
 from .filters import StudentFilter, EmployeeFilter, DonorFilter, SchoolFilter
-# Create your views here.
+from .decorators import unauthenticated_user
 
+# Create your views here.
+@unauthenticated_user
 def HomeView(request):
     return render(request, 'index.html')
-
+@unauthenticated_user
 def LoginView(request):
     if request.method =='POST':
         username = request.POST.get('username')
@@ -21,10 +24,11 @@ def LoginView(request):
         else:
             messages.info(request, 'USERNAME or PASSWORD is incorrect!')
     return render(request, 'login.html')
-
+@login_required(login_url='login')
 def DataEntryView(request):
     students = Student.objects.all().order_by('id')
     return render(request, 'dataentry.html',{'students':students})
+@login_required(login_url='login')
 def add_student(request):
     if request.method == 'POST':
         form = StudentForm(request.POST)
@@ -37,12 +41,15 @@ def add_student(request):
 
     form = StudentForm()
     return render(request, 'add_student.html',{'form':form})
+@login_required(login_url='login')
 def student_list(request):
     students = Student.objects.all().order_by('id')
     myFilter = StudentFilter(request.POST, queryset=students)
     students = myFilter.qs
     context ={'students':students, 'myFilter':myFilter}
     return render(request, 'student_list.html', context)
+
+@login_required(login_url='login')
 def EditStudentView(request, pk):
     student = Student.objects.get(id=pk)
     form = StudentForm(instance=student)
@@ -54,6 +61,7 @@ def EditStudentView(request, pk):
             return redirect('student_list')
     context={'form':form}
     return render(request, 'add_student.html', context)
+@login_required(login_url='login')
 def DeleteStudentView(request, pk):
     student = Student.objects.get(id=pk)
     if request.method == 'POST':
@@ -62,6 +70,7 @@ def DeleteStudentView(request, pk):
         return redirect('dataentry')
     context ={'student': student}    
     return render(request, 'deletion/student_delete.html', context)
+@login_required(login_url='login')
 def add_employee(request):
     if request.method == 'POST':
         form = EmployeeForm(request.POST)
@@ -73,12 +82,14 @@ def add_employee(request):
             return render(request, 'add_employee.html', {'form': form})
     form = EmployeeForm()
     return render(request, 'add_employee.html', {'form': form})
+@login_required(login_url='login')
 def employee_list(request):
     employees = Employee.objects.all().order_by('id')
     myFilter = EmployeeFilter(request.POST, queryset=employees)
     employees = myFilter.qs
     context = {'employees':employees, 'myFilter':myFilter}
     return render(request, 'employee_list.html', context)
+@login_required(login_url='login')
 def edit_employee(request, pk):
     employee = Employee.objects.get(id=pk)
     form = EmployeeForm(instance=employee)
@@ -91,6 +102,7 @@ def edit_employee(request, pk):
         
     context = {'form': form}
     return render(request, 'add_employee.html', context)
+@login_required(login_url='login')
 def delete_employee(request, pk):
     employee = Employee.objects.get(id=pk)
     if request.method == 'POST':
@@ -99,7 +111,7 @@ def delete_employee(request, pk):
         return redirect('employee_list')
     context = {'employee': employee}
     return render(request, 'deletion/employee_delete.html', context)
-
+@login_required(login_url='login')
 def add_donor(request):
     if request.method == 'POST':
         form = DonorForm(request.POST)
@@ -112,12 +124,14 @@ def add_donor(request):
         
     form = DonorForm()
     return render(request, 'add_donor.html', {'form':form})
+@login_required(login_url='login')
 def donor_list(request):
     donors = Donor.objects.all().order_by('id')
     myFilter = DonorFilter(request.POST, queryset=donors)
     donors = myFilter.qs
     context = {'donors': donors, 'myFilter': myFilter}
     return render(request, 'donor_list.html', context)
+@login_required(login_url='login')
 def edit_donor(request, pk):
     donor = Donor.objects.get(id=pk)
     form = DonorForm(instance=donor)
@@ -129,6 +143,7 @@ def edit_donor(request, pk):
             return redirect('donor_list')
     context = {'form':form}
     return render(request, 'add_donor.html', context)
+@login_required(login_url='login')
 def delete_donor(request, pk):
     donor = Donor.objects.get(id=pk)
     if request.method == 'POST':
@@ -138,6 +153,7 @@ def delete_donor(request, pk):
     
     context = {'donor':donor}
     return render(request, 'deletion/donor_delete.html', context)
+@login_required(login_url='login')
 def add_school(request):
     if request.method == 'POST':
         form = SchoolForm(request.POST)
@@ -149,7 +165,7 @@ def add_school(request):
             return render(request, 'add_school.html', {'form':form})
     form = SchoolForm()
     return render (request, 'add_school.html', {'form':form})
-
+@login_required(login_url='login')
 def school_list(request):
     schools = School.objects.all().order_by('id')
     myFilter = SchoolFilter(request.POST, queryset = schools)
