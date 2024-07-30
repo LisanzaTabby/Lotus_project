@@ -173,6 +173,14 @@ def school_list(request):
     context = {'schools':schools, 'myFilter':myFilter}
     return render(request, 'school_list.html', context)
 
+@login_required(login_url='login')
+def FinanceView(request):
+    context={}
+    return render(request, 'finance.html', context)
+@login_required(login_url='login')
+def DonorView(request):
+    context={}
+    return render(request, 'donor.html', context)
 def LogoutView(request):
     logout(request)
     return redirect('Home')
