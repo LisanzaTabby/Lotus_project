@@ -172,6 +172,26 @@ def school_list(request):
     schools = myFilter.qs
     context = {'schools':schools, 'myFilter':myFilter}
     return render(request, 'school_list.html', context)
+def edit_school(request, pk):
+    school = School.objects.get(id=pk)
+    form = SchoolForm(instance=school)
+    if request.method == 'POST':
+        form = SchoolForm(request.POST, instance=school)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Changes Saved Successfully!')
+            return redirect('school_list')
+    context = {'form':form}
+    return render(request, 'add_school.html', context)
+@login_required(login_url='login')
+def delete_school(request, pk):
+    school = School.objects.get(id=pk)
+    if request.method == 'POST':
+        school.delete()
+        messages.success(request, 'School Deleted Successfully!')
+        return redirect('school_list')
+    context = {'school':school}
+    return render(request, 'deletion/school_delete.html', context)
 
 @login_required(login_url='login')
 def FinanceView(request):
