@@ -172,6 +172,7 @@ def school_list(request):
     schools = myFilter.qs
     context = {'schools':schools, 'myFilter':myFilter}
     return render(request, 'school_list.html', context)
+@login_required(login_url='login')
 def edit_school(request, pk):
     school = School.objects.get(id=pk)
     form = SchoolForm(instance=school)
