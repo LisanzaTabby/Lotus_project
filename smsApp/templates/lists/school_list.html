@@ -38,7 +38,7 @@
                   Dropdown
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="add_student/">Add Student</a></li>
+                  <li><a class="dropdown-item" href="{% url 'add_student' %}">Add Student</a></li>
                   <li><a class="dropdown-item" href="{% url 'add_employee' %}">Add Employee</a></li>
                   <li><a class="dropdown-item" href="{% url 'add_donor' %}">Add Donor</a></li>
                   <li><a class="dropdown-item" href="{% url 'add_school' %}">Add School</a></li>
@@ -62,7 +62,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <div class="main">
-        <h1 style="text-align: center; text-transform: uppercase;">Lotus Student Beneficiaries</h1>
+        <h1 style="text-align: center; text-transform: uppercase;">Lotus school intermediaries</h1>
         {% for message in messages %}
           <p id="message">{{message}}</p>
         {% endfor %}
@@ -74,39 +74,27 @@
         <table style="margin-top: 20px;" class="table table-bordered">
             <thead>
               <tr>
-                <th scope="col">StudentID</th>
-                <th scope="col">Student Name</th>
+                <th scope="col">School ID</th>
+                <th scope="col">School Name</th>
                 <th scope="col">Email</th>
                 <th scope="col">Phone</th>
-                <th scope="col">Gender</th>
-                <th scope="col">Level of Study</th>
-                <th scope="col">Status</th>
-                <th scope="col">Position</th>
-                <th scope="col">Donor</th>
-                <th scope="col">School</th>
-                <th scope="col">DateofBirth</th>
-                <th scope="col">Date Added</th>
+                <th scope="col">Location</th>
+                <th scope="col">Date added</th>
                 <th>Actions</th>
               </tr>
             </thead>
-            {% for student in students %}
+            {% for school in schools %}
             <tbody>
               <tr>
-                <td>{{student.id}}</td>
-                <td>{{student.firstname}} {{student.lastname}}</td>
-                <td>{{student.email}}</td>
-                <td>{{student.phone}}</td>
-                <td>{{student.gender}}</td>
-                <td>{{student.levelofstudy}}</td>
-                <td>{{student.status}}</td>
-                <td>{{student.position}}</td>
-                <td>{{student.donor}}</td>
-                <td>{{student.school}}</td>
-                <td>{{student.DateofBirth}}</td>
-                <td>{{student.date_added}}</td>
+                <td>{{school.id}}</td>
+                <td>{{school.schoolname}}</td>
+                <td>{{school.email}}</td>
+                <td>{{school.phone}}</td>
+                <td>{{school.location}}</td>
+                <td>{{school.date_added}}</td>
                 <td>
-                    <a href="{% url 'editstudent' student.id %}"class="btn btn-primary">Edit</a>
-                    <a href="{% url 'deletestudent' student.id %}"class="btn btn-danger">Delete</a>
+                    <a href="{% url 'edit_school' school.id %}" class="btn btn-primary">Edit</a>
+                    <a href="{% url 'delete_school' school.id %}" class="btn btn-danger">Delete</a>
                     
                 </td>
               </tr>

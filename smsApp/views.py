@@ -27,7 +27,7 @@ def LoginView(request):
 @login_required(login_url='login')
 def DataEntryView(request):
     students = Student.objects.all().order_by('id')
-    return render(request, 'dataentry.html',{'students':students})
+    return render(request, 'userpages/dataentry.html',{'students':students})
 @login_required(login_url='login')
 def add_student(request):
     if request.method == 'POST':
@@ -37,17 +37,17 @@ def add_student(request):
             messages.success(request, "Student Successfully added!")
             return redirect('student_list')
         else:
-            return render(request, 'add_student.html', {'form':form})
+            return render(request, 'addtemplates/add_student.html', {'form':form})
 
     form = StudentForm()
-    return render(request, 'add_student.html',{'form':form})
+    return render(request, 'addtemplates/add_student.html',{'form':form})
 @login_required(login_url='login')
 def student_list(request):
     students = Student.objects.all().order_by('id')
     myFilter = StudentFilter(request.POST, queryset=students)
     students = myFilter.qs
     context ={'students':students, 'myFilter':myFilter}
-    return render(request, 'student_list.html', context)
+    return render(request, 'lists/student_list.html', context)
 
 @login_required(login_url='login')
 def EditStudentView(request, pk):
@@ -60,14 +60,14 @@ def EditStudentView(request, pk):
             messages.info(request, 'Changes Saved Successfully!')
             return redirect('student_list')
     context={'form':form}
-    return render(request, 'add_student.html', context)
+    return render(request, 'addtemplates/add_student.html', context)
 @login_required(login_url='login')
 def DeleteStudentView(request, pk):
     student = Student.objects.get(id=pk)
     if request.method == 'POST':
         student.delete()
         messages.info(request, "Student Successfully Deleted!")
-        return redirect('dataentry')
+        return redirect('student_list')
     context ={'student': student}    
     return render(request, 'deletion/student_delete.html', context)
 @login_required(login_url='login')
@@ -79,16 +79,16 @@ def add_employee(request):
             messages.success(request, 'Employee Successfully Added!')
             return redirect('employee_list')
         else:
-            return render(request, 'add_employee.html', {'form': form})
+            return render(request, 'addtemplates/add_employee.html', {'form': form})
     form = EmployeeForm()
-    return render(request, 'add_employee.html', {'form': form})
+    return render(request, 'addtemplates/add_employee.html', {'form': form})
 @login_required(login_url='login')
 def employee_list(request):
     employees = Employee.objects.all().order_by('id')
     myFilter = EmployeeFilter(request.POST, queryset=employees)
     employees = myFilter.qs
     context = {'employees':employees, 'myFilter':myFilter}
-    return render(request, 'employee_list.html', context)
+    return render(request, 'lists/employee_list.html', context)
 @login_required(login_url='login')
 def edit_employee(request, pk):
     employee = Employee.objects.get(id=pk)
@@ -101,7 +101,7 @@ def edit_employee(request, pk):
             return redirect('employee_list')
         
     context = {'form': form}
-    return render(request, 'add_employee.html', context)
+    return render(request, 'addtemplates/add_employee.html', context)
 @login_required(login_url='login')
 def delete_employee(request, pk):
     employee = Employee.objects.get(id=pk)
@@ -120,17 +120,17 @@ def add_donor(request):
             messages.success(request, 'Donor added successfully!')
             return redirect('donor_list')
         else:
-            return render(request, 'add_donor.html', {'form':form})
+            return render(request, 'addtemplates/add_donor.html', {'form':form})
         
     form = DonorForm()
-    return render(request, 'add_donor.html', {'form':form})
+    return render(request, 'addtemplates/add_donor.html', {'form':form})
 @login_required(login_url='login')
 def donor_list(request):
     donors = Donor.objects.all().order_by('id')
     myFilter = DonorFilter(request.POST, queryset=donors)
     donors = myFilter.qs
     context = {'donors': donors, 'myFilter': myFilter}
-    return render(request, 'donor_list.html', context)
+    return render(request, 'lists/donor_list.html', context)
 @login_required(login_url='login')
 def edit_donor(request, pk):
     donor = Donor.objects.get(id=pk)
@@ -142,7 +142,7 @@ def edit_donor(request, pk):
             messages.success(request, 'Changes Updated Successfully!')
             return redirect('donor_list')
     context = {'form':form}
-    return render(request, 'add_donor.html', context)
+    return render(request, 'addtemplates/add_donor.html', context)
 @login_required(login_url='login')
 def delete_donor(request, pk):
     donor = Donor.objects.get(id=pk)
@@ -162,16 +162,16 @@ def add_school(request):
             form.save()
             return redirect('school_list')
         else:
-            return render(request, 'add_school.html', {'form':form})
+            return render(request, 'addtemplates/add_school.html', {'form':form})
     form = SchoolForm()
-    return render (request, 'add_school.html', {'form':form})
+    return render (request, 'addtemplates/add_school.html', {'form':form})
 @login_required(login_url='login')
 def school_list(request):
     schools = School.objects.all().order_by('id')
     myFilter = SchoolFilter(request.POST, queryset = schools)
     schools = myFilter.qs
     context = {'schools':schools, 'myFilter':myFilter}
-    return render(request, 'school_list.html', context)
+    return render(request, 'lists/school_list.html', context)
 @login_required(login_url='login')
 def edit_school(request, pk):
     school = School.objects.get(id=pk)
@@ -183,7 +183,7 @@ def edit_school(request, pk):
             messages.success(request, 'Changes Saved Successfully!')
             return redirect('school_list')
     context = {'form':form}
-    return render(request, 'add_school.html', context)
+    return render(request, 'addtemplates/add_school.html', context)
 @login_required(login_url='login')
 def delete_school(request, pk):
     school = School.objects.get(id=pk)
@@ -197,11 +197,11 @@ def delete_school(request, pk):
 @login_required(login_url='login')
 def FinanceView(request):
     context={}
-    return render(request, 'finance.html', context)
+    return render(request, 'userpages/finance.html', context)
 @login_required(login_url='login')
 def DonorView(request):
     context={}
-    return render(request, 'donor.html', context)
+    return render(request, 'userpages/donor.html', context)
 def LogoutView(request):
     logout(request)
     return redirect('Home')
