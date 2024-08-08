@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
 from .forms import StudentForm, EmployeeForm, DonorForm, SchoolForm
 from .models import Student, Employee,Donor, School
 from .filters import StudentFilter, EmployeeFilter, DonorFilter, SchoolFilter
-from .decorators import unauthenticated_user
+from .decorators import unauthenticated_user, allowed_users, admin_only
 
 # Create your views here.
 @unauthenticated_user
@@ -18,17 +19,30 @@ def LoginView(request):
         password = request.POST.get('password')
 
         user = authenticate(request, username=username, password=password)
-        if user is not None:
+        dataentry = Group.objects.get(name='Dataentry')
+        finance = Group.objects.get(name='Finance')
+        donor = Group.objects.get(name='Donor')
+
+        if user is dataentry:
             login(request, user)
             return redirect('dataentry')
+        elif user is finance:
+            login(request, user)
+            return redirect('finance')
+        elif user is donor:
+            login(request, user)
+            return redirect('donor')
         else:
             messages.info(request, 'USERNAME or PASSWORD is incorrect!')
     return render(request, 'login.html')
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['Dataentry'])
+@admin_only
 def DataEntryView(request):
     students = Student.objects.all().order_by('id')
     return render(request, 'userpages/dataentry.html',{'students':students})
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['Dataentry'])
 def add_student(request):
     if request.method == 'POST':
         form = StudentForm(request.POST)
@@ -42,6 +56,7 @@ def add_student(request):
     form = StudentForm()
     return render(request, 'addtemplates/add_student.html',{'form':form})
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['Dataentry'])
 def student_list(request):
     students = Student.objects.all().order_by('id')
     myFilter = StudentFilter(request.POST, queryset=students)
@@ -50,6 +65,7 @@ def student_list(request):
     return render(request, 'lists/student_list.html', context)
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['Dataentry'])
 def EditStudentView(request, pk):
     student = Student.objects.get(id=pk)
     form = StudentForm(instance=student)
@@ -62,6 +78,7 @@ def EditStudentView(request, pk):
     context={'form':form}
     return render(request, 'addtemplates/add_student.html', context)
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['Dataentry'])
 def DeleteStudentView(request, pk):
     student = Student.objects.get(id=pk)
     if request.method == 'POST':
@@ -71,6 +88,7 @@ def DeleteStudentView(request, pk):
     context ={'student': student}    
     return render(request, 'deletion/student_delete.html', context)
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['Dataentry'])
 def add_employee(request):
     if request.method == 'POST':
         form = EmployeeForm(request.POST)
@@ -83,6 +101,7 @@ def add_employee(request):
     form = EmployeeForm()
     return render(request, 'addtemplates/add_employee.html', {'form': form})
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['Dataentry'])
 def employee_list(request):
     employees = Employee.objects.all().order_by('id')
     myFilter = EmployeeFilter(request.POST, queryset=employees)
@@ -90,6 +109,7 @@ def employee_list(request):
     context = {'employees':employees, 'myFilter':myFilter}
     return render(request, 'lists/employee_list.html', context)
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['Dataentry'])
 def edit_employee(request, pk):
     employee = Employee.objects.get(id=pk)
     form = EmployeeForm(instance=employee)
@@ -103,6 +123,7 @@ def edit_employee(request, pk):
     context = {'form': form}
     return render(request, 'addtemplates/add_employee.html', context)
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['Dataentry'])
 def delete_employee(request, pk):
     employee = Employee.objects.get(id=pk)
     if request.method == 'POST':
@@ -112,6 +133,7 @@ def delete_employee(request, pk):
     context = {'employee': employee}
     return render(request, 'deletion/employee_delete.html', context)
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['Dataentry'])
 def add_donor(request):
     if request.method == 'POST':
         form = DonorForm(request.POST)
@@ -125,6 +147,7 @@ def add_donor(request):
     form = DonorForm()
     return render(request, 'addtemplates/add_donor.html', {'form':form})
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['Dataentry'])
 def donor_list(request):
     donors = Donor.objects.all().order_by('id')
     myFilter = DonorFilter(request.POST, queryset=donors)
@@ -132,6 +155,7 @@ def donor_list(request):
     context = {'donors': donors, 'myFilter': myFilter}
     return render(request, 'lists/donor_list.html', context)
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['Dataentry'])
 def edit_donor(request, pk):
     donor = Donor.objects.get(id=pk)
     form = DonorForm(instance=donor)
@@ -144,6 +168,7 @@ def edit_donor(request, pk):
     context = {'form':form}
     return render(request, 'addtemplates/add_donor.html', context)
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['Dataentry'])
 def delete_donor(request, pk):
     donor = Donor.objects.get(id=pk)
     if request.method == 'POST':
@@ -154,6 +179,7 @@ def delete_donor(request, pk):
     context = {'donor':donor}
     return render(request, 'deletion/donor_delete.html', context)
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['Dataentry'])
 def add_school(request):
     if request.method == 'POST':
         form = SchoolForm(request.POST)
@@ -166,6 +192,7 @@ def add_school(request):
     form = SchoolForm()
     return render (request, 'addtemplates/add_school.html', {'form':form})
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['Dataentry'])
 def school_list(request):
     schools = School.objects.all().order_by('id')
     myFilter = SchoolFilter(request.POST, queryset = schools)
@@ -173,6 +200,7 @@ def school_list(request):
     context = {'schools':schools, 'myFilter':myFilter}
     return render(request, 'lists/school_list.html', context)
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['Dataentry'])
 def edit_school(request, pk):
     school = School.objects.get(id=pk)
     form = SchoolForm(instance=school)
@@ -185,6 +213,7 @@ def edit_school(request, pk):
     context = {'form':form}
     return render(request, 'addtemplates/add_school.html', context)
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['Dataentry'])
 def delete_school(request, pk):
     school = School.objects.get(id=pk)
     if request.method == 'POST':
@@ -195,10 +224,14 @@ def delete_school(request, pk):
     return render(request, 'deletion/school_delete.html', context)
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['Finance'])
+@admin_only
 def FinanceView(request):
     context={}
     return render(request, 'userpages/finance.html', context)
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['Donor'])
+@admin_only
 def DonorView(request):
     context={}
     return render(request, 'userpages/donor.html', context)
