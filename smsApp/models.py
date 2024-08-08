@@ -13,7 +13,7 @@ class Donor(models.Model):
     lastname = models.CharField(max_length=100, null=False)
     email = models.EmailField(max_length=100, unique=True, null=False)
     phone = models.CharField(max_length=20, null=False)
-    gender = models.CharField(choices=GENDER, null=False)
+    gender = models.CharField(max_length=6,choices=GENDER, null=False)
     date_added = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
@@ -30,7 +30,7 @@ class School (models.Model):
     schoolname = models.CharField(max_length=100, null=False)
     phone = models.CharField(max_length=20, null=False)
     email = models.EmailField(max_length=100, unique=True, null=False)
-    location = models.CharField(choices=LOCATION, null=False)
+    location = models.CharField(max_length=30,choices=LOCATION, null=False)
     date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -63,9 +63,9 @@ class Student(models.Model):
     email = models.EmailField(max_length=100, null=True)
     phone = models.CharField(max_length=25, null=False)
     gender = models.CharField(max_length=100, choices=GENDER, null=False)
-    levelofstudy = models.CharField(choices=LEVELOFSTUDY,null=False)
-    position = models.CharField(choices=POSITION, null=False)
-    status = models.CharField(choices=STATUS,null=False)
+    levelofstudy = models.CharField(max_length=30,choices=LEVELOFSTUDY,null=False)
+    position = models.CharField(max_length=30,choices=POSITION, null=False)
+    status = models.CharField(max_length=30,choices=STATUS,null=False)
     school = models.ForeignKey(School, on_delete=models.CASCADE)
     donor = models.ForeignKey(Donor, on_delete=models.CASCADE)
     DateofBirth = models.DateField(null=False)

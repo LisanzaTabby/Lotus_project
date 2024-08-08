@@ -38,9 +38,10 @@
                   Dropdown
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="add_student/">Add Student</a></li>
+                  <li><a class="dropdown-item" href="{% url 'add_student' %}">Add Student</a></li>
                   <li><a class="dropdown-item" href="{% url 'add_employee' %}">Add Employee</a></li>
                   <li><a class="dropdown-item" href="{% url 'add_donor' %}">Add Donor</a></li>
+                  <li><a class="dropdown-item" href="{% url 'add_school' %}">Add School</a></li>
                   <li><a class="dropdown-item" href="#">My profile</a></li>
                 </ul>
               </li>
@@ -81,6 +82,8 @@
                 <th scope="col">Level of Study</th>
                 <th scope="col">Status</th>
                 <th scope="col">Position</th>
+                <th scope="col">Donor</th>
+                <th scope="col">School</th>
                 <th scope="col">DateofBirth</th>
                 <th scope="col">Date Added</th>
                 <th>Actions</th>
@@ -97,6 +100,8 @@
                 <td>{{student.levelofstudy}}</td>
                 <td>{{student.status}}</td>
                 <td>{{student.position}}</td>
+                <td>{{student.donor}}</td>
+                <td>{{student.school}}</td>
                 <td>{{student.DateofBirth}}</td>
                 <td>{{student.date_added}}</td>
                 <td>
