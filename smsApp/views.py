@@ -14,27 +14,29 @@ def HomeView(request):
     return render(request, 'index.html')
 @unauthenticated_user
 def LoginView(request):
-    if request.method =='POST':
+    if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
 
         user = authenticate(request, username=username, password=password)
-        dataentry = Group.objects.get(name='Dataentry')
-        finance = Group.objects.get(name='Finance')
-        donor = Group.objects.get(name='Donor')
-
-        if user is dataentry:
-            login(request, user)
-            return redirect('dataentry')
-        elif user is finance:
-            login(request, user)
-            return redirect('finance')
-        elif user is donor:
-            login(request, user)
-            return redirect('donor')
+        
+        if user is not None:
+            if user.groups.filter(name='Dataentry').exists():
+                login(request, user)
+                return redirect('dataentry')
+            elif user.groups.filter(name='Finance').exists():
+                login(request, user)
+                return redirect('finance')
+            elif user.groups.filter(name='Donor').exists():
+                login(request, user)
+                return redirect('donor')
+            else:
+                messages.info(request, 'You do not have the required permissions!')
         else:
             messages.info(request, 'USERNAME or PASSWORD is incorrect!')
+
     return render(request, 'login.html')
+
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['Dataentry'])
 @admin_only
