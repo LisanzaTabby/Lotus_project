@@ -1,11 +1,14 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Donor(models.Model):
+
     GENDER = (
         ('Female', 'Female'),
         ('Male', 'Male'),
     )
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     firstname = models.CharField(max_length=100, null=False)
     lastname = models.CharField(max_length=100, null=False)
     email = models.EmailField(max_length=100, unique=True, null=False)
@@ -82,6 +85,7 @@ class Employee(models.Model):
         ('Research', 'Research'),
         ('HR', 'HR'),
     )
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     firstname = models.CharField(max_length=100, null=False)
     lastname = models.CharField(max_length=100, null=False)
     email = models.EmailField(max_length=100, null=True)

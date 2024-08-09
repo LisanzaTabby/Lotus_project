@@ -227,13 +227,11 @@ def delete_school(request, pk):
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['Finance'])
-@admin_only
 def FinanceView(request):
     context={}
     return render(request, 'userpages/finance.html', context)
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['Donor'])
-@admin_only
 def DonorView(request):
     context={}
     return render(request, 'userpages/donor.html', context)
