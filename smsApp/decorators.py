@@ -21,7 +21,7 @@ def allowed_users(allowed_roles=[]):
         return wrapper_func
     return decorator
 
-def admin_only(view_func):
+'''def admin_only(view_func):
     def wrapper_func(request,*args, **kwargs):
         group = None
         if request.user.groups.exists():
@@ -33,5 +33,5 @@ def admin_only(view_func):
         if group == 'Dataentry':
             return view_func(request, *args, **kwargs)        
     return wrapper_func
-    
+'''
     

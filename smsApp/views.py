@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import StudentForm, EmployeeForm, DonorForm, SchoolForm
 from .models import Student, Employee,Donor, School
 from .filters import StudentFilter, EmployeeFilter, DonorFilter, SchoolFilter
-from .decorators import unauthenticated_user, allowed_users, admin_only
+from .decorators import unauthenticated_user, allowed_users
 
 # Create your views here.
 @unauthenticated_user
@@ -39,7 +39,6 @@ def LoginView(request):
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['Dataentry'])
-@admin_only
 def DataEntryView(request):
     students = Student.objects.all().order_by('id')
     return render(request, 'userpages/dataentry.html',{'students':students})
@@ -58,7 +57,7 @@ def add_student(request):
     form = StudentForm()
     return render(request, 'addtemplates/add_student.html',{'form':form})
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['Dataentry'])
+@allowed_users(allowed_roles=['Dataentry', 'Donor'])
 def student_list(request):
     students = Student.objects.all().order_by('id')
     myFilter = StudentFilter(request.POST, queryset=students)
@@ -103,7 +102,7 @@ def add_employee(request):
     form = EmployeeForm()
     return render(request, 'addtemplates/add_employee.html', {'form': form})
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['Dataentry'])
+@allowed_users(allowed_roles=['Dataentry','Donor'])
 def employee_list(request):
     employees = Employee.objects.all().order_by('id')
     myFilter = EmployeeFilter(request.POST, queryset=employees)
@@ -194,7 +193,7 @@ def add_school(request):
     form = SchoolForm()
     return render (request, 'addtemplates/add_school.html', {'form':form})
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['Dataentry'])
+@allowed_users(allowed_roles=['Dataentry','Donor'])
 def school_list(request):
     schools = School.objects.all().order_by('id')
     myFilter = SchoolFilter(request.POST, queryset = schools)
