@@ -94,10 +94,12 @@ def add_employee(request):
     if request.method == 'POST':
         form = EmployeeForm(request.POST)
         if form.is_valid():
+            print('form is valid')
             form.save()
             messages.success(request, 'Employee Successfully Added!')
             return redirect('employee_list')
         else:
+            print(form.errors)
             return render(request, 'addtemplates/add_employee.html', {'form': form})
     form = EmployeeForm()
     return render(request, 'addtemplates/add_employee.html', {'form': form})
