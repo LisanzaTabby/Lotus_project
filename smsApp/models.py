@@ -8,7 +8,7 @@ class Donor(models.Model):
         ('Female', 'Female'),
         ('Male', 'Male'),
     )
-    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, null=True,blank=True, on_delete=models.CASCADE)
     firstname = models.CharField(max_length=100, null=False)
     lastname = models.CharField(max_length=100, null=False)
     email = models.EmailField(max_length=100, unique=True, null=False)
@@ -85,7 +85,7 @@ class Employee(models.Model):
         ('Research', 'Research'),
         ('HR', 'HR'),
     )
-    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, null=True,blank=True, on_delete=models.CASCADE)
     firstname = models.CharField(max_length=100, null=False)
     lastname = models.CharField(max_length=100, null=False)
     email = models.EmailField(max_length=100, null=True)

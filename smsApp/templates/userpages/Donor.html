@@ -52,6 +52,40 @@
 
       <div class="main">
         <h2>Welcome to Donor's View! </h2>
+        <table style="margin-top: 20px;" class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">StudentID</th>
+              <th scope="col">Student Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Phone</th>
+              <th scope="col">Gender</th>
+              <th scope="col">Level of Study</th>
+              <th scope="col">Status</th>
+              <th scope="col">Position</th>
+              <th scope="col">School</th>
+              <th scope="col">DateofBirth</th>
+              <th scope="col">Date Added</th>
+            </tr>
+          </thead>
+          {% for student in students %}
+          <tbody>
+            <tr>
+              <td>{{student.id}}</td>
+              <td>{{student.firstname}} {{student.lastname}}</td>
+              <td>{{student.email}}</td>
+              <td>{{student.phone}}</td>
+              <td>{{student.gender}}</td>
+              <td>{{student.levelofstudy}}</td>
+              <td>{{student.status}}</td>
+              <td>{{student.position}}</td>
+              <td>{{student.school}}</td>
+              <td>{{student.DateofBirth}}</td>
+              <td>{{student.date_added}}</td>
+            </tr>
+          </tbody>
+          {% endfor %}
+        </table>
 
       </div>
 </body>
