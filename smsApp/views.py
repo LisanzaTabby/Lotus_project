@@ -234,7 +234,8 @@ def FinanceView(request):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['Donor'])
 def DonorView(request):
-    context={}
+    students = Student.objects.filter(donor=request.user)
+    context={'students':students}
     return render(request, 'userpages/donor.html', context)
 def LogoutView(request):
     logout(request)

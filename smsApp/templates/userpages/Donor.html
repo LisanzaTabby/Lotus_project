@@ -68,6 +68,8 @@
               <th scope="col">Date Added</th>
             </tr>
           </thead>
+      {% if students %}
+
           {% for student in students %}
           <tbody>
             <tr>
@@ -85,6 +87,9 @@
             </tr>
           </tbody>
           {% endfor %}
+      {% else %}
+      <p>No Students Found for your account!</p>
+      {%endif %}
         </table>
 
       </div>

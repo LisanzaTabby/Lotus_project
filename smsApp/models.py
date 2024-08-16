@@ -67,7 +67,7 @@ class Student(models.Model):
     position = models.CharField(max_length=30,choices=POSITION, null=False)
     status = models.CharField(max_length=30,choices=STATUS,null=False)
     school = models.ForeignKey(School, on_delete=models.CASCADE)
-    donor = models.ForeignKey(Donor, on_delete=models.CASCADE)
+    donor = models.ForeignKey(User, on_delete=models.CASCADE)
     DateofBirth = models.DateField(null=False)
     date_added = models.DateTimeField(auto_now_add=True)
 
