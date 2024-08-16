@@ -43,7 +43,7 @@ class EmployeeFilter(django_filters.FilterSet):
         ('Research', 'Research'),
         ('HR', 'HR'),
     )
-    name = CharFilter(field_name='firstname', lookup_expr='icontains', label='Student name')
+    name = CharFilter(field_name='firstname', lookup_expr='icontains', label='Employee name')
     gender = ChoiceFilter(choices = GENDER, label='Gender')
     department = ChoiceFilter(choices = DEPT, label='Department')
     class Meta:
