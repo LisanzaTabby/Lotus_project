@@ -6,13 +6,12 @@ from django.contrib.auth.decorators import login_required
 from .forms import StudentForm, EmployeeForm, DonorForm, SchoolForm
 from .models import Student, Employee,Donor, School
 from .filters import StudentFilter, EmployeeFilter, DonorFilter, SchoolFilter
-from .decorators import unauthenticated_user, allowed_users
+from .decorators import  allowed_users
 
 # Create your views here.
-@unauthenticated_user
 def HomeView(request):
     return render(request, 'index.html')
-@unauthenticated_user
+
 def LoginView(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -125,6 +124,7 @@ def edit_employee(request, pk):
         
     context = {'form': form}
     return render(request, 'addtemplates/add_employee.html', context)
+
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['Dataentry'])
 def delete_employee(request, pk):
@@ -135,6 +135,7 @@ def delete_employee(request, pk):
         return redirect('employee_list')
     context = {'employee': employee}
     return render(request, 'deletion/employee_delete.html', context)
+
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['Dataentry'])
 def add_donor(request):
@@ -231,12 +232,14 @@ def delete_school(request, pk):
 def FinanceView(request):
     context={}
     return render(request, 'userpages/finance.html', context)
+
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['Donor'])
 def DonorView(request):
     students = Student.objects.filter(donor=request.user)
     context={'students':students}
     return render(request, 'userpages/donor.html', context)
+
 def LogoutView(request):
     logout(request)
     return redirect('Home')
